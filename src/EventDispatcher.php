@@ -3,28 +3,28 @@ namespace Sellastica\Events;
 
 class EventDispatcher
 {
-	/** @var \Bazo\Events\EventDispatcher */
+	/** @var \Contributte\EventDispatcher\EventDispatcher */
 	private $eventDispatcher;
 	/** @var array */
 	private $events = [];
 
 
 	/**
-	 * @param \Bazo\Events\EventDispatcher $eventDispatcher
+	 * @param \Contributte\EventDispatcher\EventDispatcher $eventDispatcher
 	 */
-	public function __construct(\Bazo\Events\EventDispatcher $eventDispatcher)
+	public function __construct(\Contributte\EventDispatcher\EventDispatcher $eventDispatcher)
 	{
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
 	 * @param string $eventName
-	 * @param array $eventArgs
+	 * @param \Symfony\Component\EventDispatcher\Event $event
 	 */
-	public function dispatchEvent(string $eventName, array $eventArgs = []): void
+	public function dispatchEvent(string $eventName, \Symfony\Component\EventDispatcher\Event $event = null): void
 	{
-		$this->events[$eventName][] = $eventArgs;
-		$this->eventDispatcher->dispatchEvent($eventName, $eventArgs);
+		$this->events[$eventName][] = $event;
+		$this->eventDispatcher->dispatch($eventName, $event);
 	}
 
 	/**
